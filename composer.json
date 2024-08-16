@@ -1,0 +1,17 @@
+{
+    "name": "gpm_dev/redis-api",
+    "autoload": {
+        "psr-4": {
+            "RedisApi\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Dankdev021",
+            "email": "danieldeivedson2018@gmail.com"
+        }
+    ],
+    "require": {
+        "predis/predis": "^2.2"
+    }
+}
