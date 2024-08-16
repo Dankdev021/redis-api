@@ -15,28 +15,18 @@ use RedisApi\PublishMessage;
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-if ($uri === '/set-string') {
-    echo SetString::execute('greeting', 'Hello, Redis!');
-} elseif ($uri === '/get-string') {
-    echo GetString::execute('greeting');
-} elseif ($uri === '/add-task') {
-    $task = $_GET['task'] ?? 'Default Task';
-    echo AddTask::execute($task);
-} elseif ($uri === '/get-tasks') {
-    echo GetTasks::execute();
-} elseif ($uri === '/set-hash') {
-    $data = ['name' => 'Daniel', 'email' => 'daniel@example.com'];
-    echo SetHash::execute('user:1000', $data);
-} elseif ($uri === '/get-hash') {
-    echo GetHash::execute('user:1000');
-} elseif ($uri === '/add-set') {
-    echo AddSet::execute('colors', 'red');
-} elseif ($uri === '/get-set') {
-    echo GetSet::execute('colors');
-} elseif ($uri === '/increment-counter') {
-    echo IncrementCounter::execute('pageviews');
-} elseif ($uri === '/publish-message') {
-    echo PublishMessage::execute('channel', 'Hello, daniel!');
-} else {
-    echo "Bem vindo a minha Redis API!";
-}
+$response = match ($uri) {
+    '/set-string' => SetString::execute('greeting', 'Hello, Redis!'),
+    '/get-string' => GetString::execute('greeting'),
+    '/add-task' => AddTask::execute($_GET['task'] ?? 'Default Task'),
+    '/get-tasks' => GetTasks::execute(),
+    '/set-hash' => SetHash::execute('user:1000', ['name' => 'Daniel', 'email' => 'daniel@example.com']),
+    '/get-hash' => GetHash::execute('user:1000'),
+    '/add-set' => AddSet::execute('colors', 'red'),
+    '/get-set' => GetSet::execute('colors'),
+    '/increment-counter' => IncrementCounter::execute('pageviews'),
+    '/publish-message' => PublishMessage::execute('channel', 'Hello, Daniel!'),
+    default => "Bem vindo a minha Redis API!",
+};
+
+echo $response;
